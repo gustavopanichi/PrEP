@@ -58,7 +58,7 @@ window.PHASES = [
     id: "relevance",
     num: "01",
     label: "Relevance",
-    img: "assets/phase1-v3.jpg",
+    img: "assets/phase1-v4.jpg",
     heading: "Until something shifts my perspective.",
     summary:
       "Something changes how I see my life and how I want to care for myself. Maybe it's a change in relationship status, a health milestone, or a new sense of what matters to me. I begin to recognize that PrEP could have a place in my story, for reasons that are my own.",
@@ -107,7 +107,7 @@ window.PHASES = [
     id: "initiation",
     num: "02",
     label: "Initiation",
-    img: "assets/phase2-v3.jpg",
+    img: "assets/phase2-v4.jpg",
     heading: "I’m choosing how protection fits into my picture.",
     summary:
       "Now that PrEP feels relevant, I’m figuring out what works for me. How much control, effort, and involvement do I want? The choices I see and conversations I have shape what feels possible.",
