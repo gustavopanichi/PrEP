@@ -34,8 +34,8 @@ button { font: inherit; color: inherit; }
 /* hero art: sits behind the header and headline, fading into the page */
 .bg {
   position: absolute; z-index: -1; top: 0; right: -10vw; pointer-events: none;
-  height: min(40vh, 25vw); aspect-ratio: 2800 / 933;
-  background: url("assets/hero.jpg") center / cover no-repeat;
+  height: min(40vh, 25vw); aspect-ratio: 2000 / 658;
+  background: url("assets/hero-v2.jpg") center / cover no-repeat;
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%), linear-gradient(180deg, #000 55%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-image: linear-gradient(90deg, transparent 0%, #000 34%), linear-gradient(180deg, #000 55%, transparent 100%);
