@@ -246,15 +246,24 @@ body:not([data-view="journey"]) .bg { display: none; }
 .ta-heading::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 .ta-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: var(--gap); container-type: size; }
 /* text-only cards: phase eyebrow > large statement > supporting bullets > link */
-.ta-card { display: flex; flex-direction: column; min-height: 0; border: 1px solid var(--line); border-radius: 16px; padding: 1.5em 1.6em 1.3em; background: var(--bg); transition: border-color .25s, box-shadow .25s; }
-.ta-card:hover { border-color: rgba(18, 40, 88, .34); box-shadow: 0 18px 36px -26px rgba(18, 40, 88, .5); }
+/* white cards that invert to dark blue with light text on hover */
+.ta-card {
+  --ta-bg: #fff; --ta-title: var(--ink); --ta-body: rgba(18, 40, 88, .78); --ta-accent: var(--blue); --ta-badge-ink: #fff;
+  display: flex; flex-direction: column; min-height: 0; border: 1px solid var(--line); border-radius: 16px; padding: 1.5em 1.6em 1.3em;
+  background: var(--ta-bg); transition: background .3s, border-color .3s, box-shadow .3s;
+}
+.ta-card:hover {
+  --ta-bg: var(--ink); --ta-title: #fff; --ta-body: rgba(255, 255, 255, .8); --ta-accent: #8ec2ff; --ta-badge-ink: var(--ink);
+  border-color: var(--ink); box-shadow: 0 18px 36px -22px rgba(18, 40, 88, .7);
+}
 .ta-card .inner { flex: 1; min-width: 0; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
-.ta-card .tag { color: var(--blue); font-size: .74em; }
-.ta-card h3 { margin: .9em 0 0; color: var(--ink); font-weight: 500; font-size: 1.72em; line-height: 1.1; letter-spacing: -0.015em; }
-.ta-card ul { margin: 1.1em 0 0; padding-left: 1.05em; font-size: .9em; line-height: 1.5; color: rgba(18, 40, 88, .78); }
+.ta-card .tag { color: var(--ta-accent); font-size: .74em; transition: color .3s; }
+.ta-card .tag b { background: var(--ta-accent); color: var(--ta-badge-ink); transition: background .3s, color .3s; }
+.ta-card h3 { margin: .9em 0 0; color: var(--ta-title); font-weight: 500; font-size: 1.72em; line-height: 1.1; letter-spacing: -0.015em; transition: color .3s; }
+.ta-card ul { margin: 1.1em 0 0; padding-left: 1.05em; font-size: .9em; line-height: 1.5; color: var(--ta-body); transition: color .3s; }
 .ta-card li + li { margin-top: .55em; }
-.ta-card li::marker { color: var(--blue); }
-.ta-card .go { margin-top: auto; padding-top: 1.1em; align-self: flex-start; display: inline-flex; align-items: center; gap: .5em; border: 0; background: none; padding: 0; cursor: pointer; color: var(--blue); font-size: .74em; font-weight: 600; text-transform: uppercase; }
+.ta-card li::marker { color: var(--ta-accent); }
+.ta-card .go { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: .5em; border: 0; background: none; padding: 1.1em 0 0; cursor: pointer; color: var(--ta-accent); font-size: .74em; font-weight: 600; text-transform: uppercase; }
 .ta-card .go:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 .how { padding-top: clamp(20px, 5vh, 64px); }
