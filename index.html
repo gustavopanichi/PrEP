@@ -7,9 +7,36 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=28">
+<link rel="stylesheet" href="styles.css?v=31">
+<script>
+  /* Password gate: lock before first paint unless this browser already unlocked */
+  (function () {
+    try { if (localStorage.getItem("prep-gate") === "3f861d2fbd256ae591db26e24c3219b7f11a08ab6efef0758ec0621d98cb3943") return; } catch (e) {}
+    document.documentElement.classList.add("locked");
+  })();
+</script>
 </head>
 <body data-view="journey">
+<div class="gate" id="gate">
+  <div class="bg" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="wrap rule"><span class="logo"><img src="assets/logo.svg" alt="Gilead"></span></div>
+  </header>
+  <main class="gate__main">
+    <div class="wrap">
+      <h1>The PrEP <span>Empathy Journey</span></h1>
+      <p class="lede">This site is private. Enter the password to continue.</p>
+      <form class="gate__form" id="gate-form" autocomplete="off" novalidate>
+        <label class="sr" for="gate-pw">Password</label>
+        <input id="gate-pw" type="password" placeholder="Password" autocomplete="current-password">
+        <button type="submit" aria-label="Enter the site">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+      <p class="gate__err" id="gate-err" role="alert" hidden>That password isn’t right. Try again.</p>
+    </div>
+  </main>
+</div>
 <div class="app">
   <div class="bg" aria-hidden="true"></div>
   <header class="site-header">
@@ -44,7 +71,30 @@
   </main>
 </div>
 
-<script src="content.js?v=28"></script>
-<script src="app.js?v=28"></script>
+<script src="content.js?v=31"></script>
+<script src="app.js?v=31"></script>
+<script>
+  /* Password gate: compare the SHA-256 of the entry with the stored hash */
+  (function () {
+    const HASH = "3f861d2fbd256ae591db26e24c3219b7f11a08ab6efef0758ec0621d98cb3943";
+    const root = document.documentElement, gate = document.getElementById("gate");
+    const form = document.getElementById("gate-form"), pw = document.getElementById("gate-pw"), err = document.getElementById("gate-err");
+    if (!root.classList.contains("locked")) return;
+    pw.focus();
+    const sha256 = async s => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)))]
+      .map(b => b.toString(16).padStart(2, "0")).join("");
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      if (await sha256(pw.value.trim().toLowerCase()) === HASH) {
+        try { localStorage.setItem("prep-gate", HASH); } catch (x) {}
+        root.classList.remove("locked");
+        window.dispatchEvent(new Event("resize"));      // re-run the fit-to-screen sizing
+      } else {
+        gate.classList.add("is-wrong"); err.hidden = false; pw.select();
+      }
+    });
+    pw.addEventListener("input", () => { gate.classList.remove("is-wrong"); err.hidden = true; });
+  })();
+</script>
 </body>
 </html>
