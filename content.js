@@ -9,7 +9,7 @@ window.PHASES = [
     id: "before-relevance",
     num: null,
     label: "Before Relevance",
-    img: "assets/s0.jpg",
+    img: "assets/phase0.jpg",
     heading: "I don’t see myself here.",
     summary:
       "PrEP is something I’ve heard of, but it doesn’t feel like something for me. What I’ve seen and heard about it doesn’t reflect my life, my relationships, or how I see myself. Before I can even consider PrEP, I have to recognize that I belong in the picture.",
@@ -58,7 +58,7 @@ window.PHASES = [
     id: "relevance",
     num: "01",
     label: "Relevance",
-    img: "assets/s1.jpg",
+    img: "assets/phase1.jpg",
     heading: "Until something shifts my perspective.",
     summary:
       "Something changes how I see my life and how I want to care for myself. Maybe it's a change in relationship status, a health milestone, or a new sense of what matters to me. I begin to recognize that PrEP could have a place in my story, for reasons that are my own.",
@@ -107,7 +107,7 @@ window.PHASES = [
     id: "initiation",
     num: "02",
     label: "Initiation",
-    img: "assets/s2.jpg",
+    img: "assets/phase2.jpg",
     heading: "I’m choosing how protection fits into my picture.",
     summary:
       "Now that PrEP feels relevant, I’m figuring out what works for me. How much control, effort, and involvement do I want? The choices I see and conversations I have shape what feels possible.",
@@ -155,7 +155,7 @@ window.PHASES = [
     id: "integration",
     num: "03",
     label: "Integration",
-    img: "assets/s3.jpg",
+    img: "assets/phase3.jpg",
     heading: "I’m coming into focus as the noise recedes.",
     summary:
       "As PrEP becomes part of my life, I learn what it actually asks of me. I find a rhythm that works, and with experience, I begin to feel more confident that I can count on my protection. The cognitive noise fades, and I start to feel more present.",
@@ -215,7 +215,7 @@ window.PHASES = [
     id: "internalization",
     num: "04",
     label: "Internalization",
-    img: "assets/s4.jpg",
+    img: "assets/phase4.jpg",
     heading: "The frame of my life is widening.",
     summary:
       "As protection becomes something I can depend on, it takes up less space in my mind. The attention once occupied by worry and uncertainty becomes available for intimacy, connection, spontaneity, and everything else in my life.",
@@ -284,7 +284,7 @@ window.PHASES = [
     id: "evolution",
     num: "05",
     label: "Evolution",
-    img: "assets/s5.jpg",
+    img: "assets/phase5.jpg",
     heading: "My picture keeps getting fuller.",
     summary:
       "Life doesn’t stand still. PrEP becomes the backdrop to new experiences, adventures, relationships, and responsibilities. New chapters can alter what I need from protection, and over time, I can consider and reevaluate how PrEP fits within my picture.",
