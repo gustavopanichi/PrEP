@@ -259,7 +259,7 @@ body:not([data-view="journey"]) .bg { display: none; }
    Phones — still one screen, no page scroll
    ========================================================================== */
 @media (max-width: 760px) {
-  :root { --jpb: 10px; --sliver: 26px; }
+  :root { --jpb: 10px; --sliver: 22px; }
   .rule { gap: 16px; }
   .nav { gap: 14px; overflow-x: auto; scrollbar-width: none; }
   .nav a { font-size: 12.5px; }
@@ -276,12 +276,19 @@ body:not([data-view="journey"]) .bg { display: none; }
   .phase__text, .phase__more { display: none; }
   .phase__heading { margin-top: .45em; }
 
-  .phase.is-active { height: auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); padding: 10px; }
-  .phase.is-active .phase__media { display: none; }
-  .phase.is-active .phase__summary { grid-column: 1; grid-row: 1; padding: 2px 46px 0 2px; }
-  .phase.is-active .phase__deep { padding-left: 0; }
+  /* opened card: the full 9:16 illustration fills the top of the card,
+     with a blurred copy of itself behind it; text and tabs below */
+  .col:has(.journey.has-active) .hero { display: none; }
+  .phase.is-active { height: auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 50%) auto minmax(0, 1fr); padding: 8px; }
+  .phase.is-active .phase__media { display: block; grid-column: 1; grid-row: 1; height: 100%; border-radius: 10px; background: #1d2645; }
+  .phase.is-active .phase__media::before {
+    content: ""; position: absolute; inset: -40px; background: var(--img) center / cover no-repeat;
+    filter: blur(24px) brightness(.85);
+  }
+  .phase.is-active .stage { z-index: 1; width: min(100cqw, calc(100cqh * 9 / 16)); box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .5); }
+  .phase.is-active .phase__summary { grid-column: 1; grid-row: 2; padding: 10px 4px 0 2px; }
   .phase.is-active .phase__heading { font-size: 19px; }
-  .phase.is-active .phase__deep { grid-column: 1; grid-row: 2; padding: 10px 0 0; }
+  .phase.is-active .phase__deep { grid-column: 1; grid-row: 3; padding: 8px 0 0; }
   .phase.is-active .phase__close { top: 8px; right: 8px; width: 34px; height: 34px; }
   .tabs { padding-right: 0; }
   .tablist { flex: 1 1 100%; }

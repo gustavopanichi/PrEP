@@ -58,7 +58,7 @@
     el.id = "phase-" + p.id;
     el.innerHTML = `
       <button class="phase__hit" aria-expanded="false" aria-label="${p.label}: ${p.heading} Open this phase"></button>
-      <div class="phase__media"><div class="stage"><img src="${p.img}" alt=""></div></div>
+      <div class="phase__media" style="--img:url('${p.img}')"><div class="stage"><img src="${p.img}" alt=""></div></div>
       <div class="phase__summary">
         ${tag(p, true)}
         <h2 class="phase__heading" tabindex="-1">${p.heading}</h2>
