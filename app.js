@@ -51,6 +51,31 @@
       <div class="panels">${happening}${insights}</div>`;
   }
 
+  /* ---------- Illustration markup ----------
+     Two images carry camera UI painted into them. On hover only the picture
+     zooms: an unzoomed copy of the UI sits on top of the zooming layer. */
+  const BRACKETS = [[21,339,85,403,"tl"],[880,339,943,403,"tr"],[21,740,85,803,"bl"],[880,740,943,803,"br"],
+                    [274,467,297,490,"tl"],[465,467,488,490,"tr"],[274,637,297,661,"bl"],[465,637,488,661,"br"]]
+    .map(([x0, y0, x1, y1, c]) => {
+      const w = x1 - x0 + 1, h = y1 - y0 + 1, hy = c[0] === "t" ? y0 + 1 : y1 - 6, vx = c[1] === "l" ? x0 : x1 - 5;
+      return `<rect x="${x0}" y="${hy}" width="${w}" height="6"/><rect x="${vx}" y="${y0}" width="6" height="${h}"/>`;
+    }).join("");
+  const UI = {
+    initiation: {            // camera bars stay put; only the viewfinder zooms
+      origin: "50% 42%",
+      over: p => `<img class="ui" src="${p.img}" alt="" style="clip-path:polygon(0 0,100% 0,100% 6.64%,0 6.64%,0 77.59%,100% 77.59%,100% 100%,0 100%)">`
+    },
+    internalization: {       // brackets + zoom badge stay put over a UI-free picture
+      base: "assets/phase4-v7-clean.jpg",
+      over: p => `<img class="ui" src="${p.img}" alt="" style="clip-path:inset(86.67% 35.57% 6.69% 35.36% round 5.89% / 3.32%)">` +
+        `<svg class="ui" viewBox="0 0 967 1718" preserveAspectRatio="none" aria-hidden="true"><g fill="#fff">${BRACKETS}</g></svg>`
+    }
+  };
+  const art = (p, lazy) => {
+    const u = UI[p.id] || {};
+    return `<img class="art" src="${u.base || p.img}" alt=""${lazy ? ' loading="lazy"' : ""}${u.origin ? ` style="transform-origin:${u.origin}"` : ""}>${u.over ? u.over(p) : ""}`;
+  };
+
   /* ---------- Build cards ---------- */
   P.forEach((p, i) => {
     const el = document.createElement("article");
@@ -58,7 +83,7 @@
     el.id = "phase-" + p.id;
     el.innerHTML = `
       <button class="phase__hit" aria-expanded="false" aria-label="${p.label}: ${p.heading} Open this phase"></button>
-      <div class="phase__media" style="--img:url('${p.img}')"><div class="stage"><img src="${p.img}" alt=""></div></div>
+      <div class="phase__media" style="--img:url('${p.img}')"><div class="stage">${art(p)}</div></div>
       <div class="phase__summary">
         ${tag(p, true)}
         <h2 class="phase__heading" tabindex="-1">${p.heading}</h2>
@@ -213,7 +238,6 @@
     <div class="ta-grid">${T.items.map(it => {
       const p = P.find(x => x.id === it.phase);
       return `<article class="ta-card">
-        <div class="thumb"><img src="${p.img}" alt="" loading="lazy"></div>
         <div class="inner">
           ${tag(p, false)}
           <h3>${it.title}</h3>
@@ -228,7 +252,7 @@
   });
   function fitTakeaways() {
     const ta = $("#ta"), grid = $(".ta-grid", ta);
-    if (isMobile()) return fit(ta, () => grid.clientHeight > 220 && $$(".ta-card", ta).every(c => $(".inner", c).scrollHeight <= c.clientHeight - 60), 10, 14);
+    if (isMobile()) return fit(ta, () => grid.clientHeight > 220 && $$(".ta-card .inner", ta).every(n => n.scrollHeight <= n.clientHeight + 1), 10, 14);
     fit(ta, () => grid.clientHeight > 200 && $$(".ta-card .inner", ta).every(n => n.scrollHeight <= n.clientHeight + 1), 9.5, cardMax());
   }
 
