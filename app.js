@@ -15,9 +15,12 @@
   function block(b) {
     if (b.t === "note") return `<div class="note"><span class="label">${b.label}</span><p>${b.text}</p></div>`;
     if (b.t === "gilead") return `<div class="gilead"><span class="label">What it means for Gilead</span><p>${b.text}</p></div>`;
-    return `<div class="quote ${b.kind}"><span class="label">${b.label}</span>${b.text ? `<p class="lead">${b.text}</p>` : ""}${
-      b.items.map(it => `<figure>${it.intro ? `<p class="intro">${it.intro}</p>` : ""}<blockquote>“${it.q}”</blockquote>${it.attr ? `<figcaption>${it.attr}</figcaption>` : ""}</figure>`).join("")
-    }</div>`;
+    // one block per quote, so the column balancer can move them independently;
+    // only the first carries the label (and lead), the rest read as its continuation
+    const fig = it => `<figure>${it.intro ? `<p class="intro">${it.intro}</p>` : ""}<blockquote>“${it.q}”</blockquote>${it.attr ? `<figcaption>${it.attr}</figcaption>` : ""}</figure>`;
+    const head = `<span class="label">${b.label}</span>${b.text ? `<p class="lead">${b.text}</p>` : ""}`;
+    if (!b.items.length) return `<div class="quote ${b.kind}">${head}</div>`;
+    return b.items.map((it, k) => `<div class="quote ${b.kind}${k ? " cont" : ""}">${k ? `<span class="label">${b.label}</span>` : head}${fig(it)}</div>`).join("");
   }
   function deep(p) {
     const pid = k => `p-${p.id}-${k}`;
@@ -52,29 +55,106 @@
   }
 
   /* ---------- Illustration markup ----------
-     Two images carry camera UI painted into them. On hover only the picture
-     zooms: an unzoomed copy of the UI sits on top of the zooming layer. */
+     Initiation and Internalization show camera UI. It is drawn here as SVG (in the original artwork's
+     coordinates, 966 × 1718) on top of clean illustrations, so on hover only the picture zooms or plays. */
+  const UI_FONT = `font-family="Geist, -apple-system, 'Helvetica Neue', Arial, sans-serif"`;
+  const CAM_FONT = `font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"`;
+  const YELLOW = "#ffc20f";
   const BRACKETS = [[21,339,85,403,"tl"],[880,339,943,403,"tr"],[21,740,85,803,"bl"],[880,740,943,803,"br"],
                     [274,467,297,490,"tl"],[465,467,488,490,"tr"],[274,637,297,661,"bl"],[465,637,488,661,"br"]]
     .map(([x0, y0, x1, y1, c]) => {
       const w = x1 - x0 + 1, h = y1 - y0 + 1, hy = c[0] === "t" ? y0 + 1 : y1 - 6, vx = c[1] === "l" ? x0 : x1 - 5;
       return `<rect x="${x0}" y="${hy}" width="${w}" height="6"/><rect x="${vx}" y="${y0}" width="6" height="${h}"/>`;
     }).join("");
+  // "1 → 0.5" lens badge (Internalization)
+  const ZOOM_BADGE = `
+    <rect x="343" y="1490" width="279" height="112" rx="56" fill="#000" fill-opacity=".56"/>
+    <circle cx="405" cy="1545.5" r="39" fill="#fff" fill-opacity=".13"/>
+    <text x="401" y="1559" text-anchor="middle" font-size="39" font-weight="300" fill="#fff" ${UI_FONT}>1</text>
+    <path d="M464 1545.5h37M492 1537l9.5 8.5-9.5 8.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="562.5" cy="1545.5" r="38.5" fill="#fff" fill-opacity=".06" stroke="#f0bf2c" stroke-width="2.2"/>
+    <text x="562.5" y="1559" text-anchor="middle" font-size="38" font-weight="300" fill="#f0bf2c" ${UI_FONT}>0.5</text>`;
+  // phone camera chrome (Initiation): top bar + sliders, shutter, thumbnail, flip
+  const SLIDERS = [["55", "CONTROL", 60, 214, 137.5], ["25", "VISIBILITY", 280, 436, 357.5], ["30", "EFFORT", 507, 664, 586], ["64", "INVOLVEMENT", 749, 905, 827.5]];
+  const CAMERA = p => `
+    <rect x="0" y="0" width="966" height="114" fill="#000"/>
+    <circle cx="71" cy="56.5" r="31.5" fill="none" stroke="#fff" stroke-width="2.6"/>
+    <path d="M77 36 58 60h12l-5 18 20-26H72z" fill="#fff"/>
+    <circle cx="468.5" cy="56" r="32" fill="#232323"/>
+    <path d="M455.5 49.5l13 13 13-13" fill="none" stroke="${YELLOW}" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="895" cy="56" r="31.5" fill="none" stroke="#fff" stroke-width="2.6"/>
+    <path d="M872.5 56c6-9 14-14 22.5-14s16.5 5 22.5 14c-6 9-14 14-22.5 14s-16.5-5-22.5-14z" fill="none" stroke="#fff" stroke-width="2.8" stroke-linejoin="round"/>
+    <circle cx="895" cy="56" r="8" fill="none" stroke="#fff" stroke-width="2.8"/>
+    <rect x="0" y="1333" width="966" height="385" fill="#000"/>
+    ${SLIDERS.map(([v, label, x0, x1, cx]) => `
+      <text x="${cx}" y="1394" text-anchor="middle" font-size="36" font-weight="700" fill="${YELLOW}" ${CAM_FONT}>${v}</text>
+      <rect x="${x0}" y="1407" width="${x1 - x0}" height="9" rx="4.5" fill="#262626"/>
+      <rect x="${x0}" y="1407" width="${Math.round((x1 - x0) * v / 100)}" height="9" rx="4.5" fill="${YELLOW}"/>
+      <text x="${cx}" y="1456" text-anchor="middle" font-size="20.5" font-weight="700" fill="#fff" ${CAM_FONT}>${label}</text>`).join("")}
+    <clipPath id="cam-thumb"><rect x="53" y="1521" width="135" height="135" rx="11"/></clipPath>
+    <g clip-path="url(#cam-thumb)">
+      <svg x="53" y="1521" width="135" height="135" viewBox="0 230 941 941" preserveAspectRatio="xMidYMid slice"><image href="${p.img}" width="941" height="1672"/></svg>
+    </g>
+    <circle cx="465" cy="1589" r="72.5" fill="none" stroke="#fff" stroke-width="7"/>
+    <circle cx="465" cy="1589" r="64" fill="#fff"/>
+    <circle cx="861.5" cy="1589" r="64" fill="#262626"/>
+    <g fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round">
+      <path d="M837.5 1585a24.5 24.5 0 0 1 47-5"/><path d="M885.5 1593a24.5 24.5 0 0 1-47 5"/>
+    </g>
+    <path d="M875 1578h20l-10 12z" fill="#fff" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M828 1600h20l-10-12z" fill="#fff" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>`;
+  const uiLayer = inner => `<svg class="ui" viewBox="0 0 966 1718" preserveAspectRatio="none" aria-hidden="true">${inner}</svg>`;
+  /* Hover clips: each card's still IS its clip's first frame, so image > video > image swaps are invisible. */
   const UI = {
-    initiation: {            // camera bars stay put; only the viewfinder zooms
+    "before-relevance": { base: "assets/phase0-f1.jpg", video: "assets/phase0-hover-v3.mp4" },
+    relevance:          { base: "assets/phase1-f1.jpg", video: "assets/phase1-hover-v3.mp4" },
+    initiation: {            // camera chrome stays put; only the viewfinder zooms and plays the clip
       origin: "50% 42%",
-      over: p => `<img class="ui" src="${p.img}" alt="" style="clip-path:polygon(0 0,100% 0,100% 6.64%,0 6.64%,0 77.59%,100% 77.59%,100% 100%,0 100%)">`
+      base: "assets/phase2-f1.jpg", video: "assets/phase2-hover-v3.mp4",
+      over: p => uiLayer(CAMERA(p))
     },
-    internalization: {       // brackets + zoom badge stay put over a UI-free picture
-      base: "assets/phase4-v7-clean.jpg",
-      over: p => `<img class="ui" src="${p.img}" alt="" style="clip-path:inset(86.67% 35.57% 6.69% 35.36% round 5.89% / 3.32%)">` +
-        `<svg class="ui" viewBox="0 0 967 1718" preserveAspectRatio="none" aria-hidden="true"><g fill="#fff">${BRACKETS}</g></svg>`
-    }
+    integration: {           // still = the clip's first frame
+      base: "assets/phase3-v7-f2.jpg",
+      video: "assets/phase3-hover-v2.mp4"
+    },
+    internalization: {       // focus brackets + lens badge stay put over the clean picture / clip
+      base: "assets/phase4-f1.jpg", video: "assets/phase4-hover-v3.mp4",
+      over: () => uiLayer(`<g fill="#fff">${BRACKETS}</g>${ZOOM_BADGE}`)
+    },
+    evolution:          { base: "assets/phase5-f2.jpg", video: "assets/phase5-hover-v4.mp4" }
   };
   const art = (p, lazy) => {
     const u = UI[p.id] || {};
-    return `<img class="art" src="${u.base || p.img}" alt=""${lazy ? ' loading="lazy"' : ""}${u.origin ? ` style="transform-origin:${u.origin}"` : ""}>${u.over ? u.over(p) : ""}`;
+    const origin = u.origin ? ` style="transform-origin:${u.origin}"` : "";
+    return `<img class="art" src="${u.base || p.img}" alt=""${lazy ? ' loading="lazy"' : ""}${origin}>` +
+      (u.video ? `<video class="art hover-video" src="${u.video}" muted playsinline preload="auto" tabindex="-1" aria-hidden="true"${origin}></video>` : "") +
+      (u.over ? u.over(p) : "");
   };
+
+  /* Hover video: play once per hover, show it only once its first frame is on screen,
+     and when it ends fade back to the still (the last frame matches the first). */
+  function wireHoverVideos() {
+    if (!matchMedia("(hover: hover)").matches) return;
+    $$("video.hover-video").forEach(v => {
+      const card = v.closest(".phase"), media = v.closest(".phase__media");
+      let busy = false;
+      const reveal = () => v.classList.add("is-on");
+      const play = () => {
+        if (busy) return;
+        busy = true;
+        v.currentTime = 0;
+        v.play().then(() => {
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(reveal); else reveal();
+        }).catch(() => { busy = false; });
+      };
+      v.addEventListener("ended", () => {
+        v.classList.remove("is-on");
+        setTimeout(() => { busy = false; }, 450);   // allow the fade to finish before a replay
+      });
+      card.addEventListener("mouseenter", () => { if (!card.classList.contains("is-active")) play(); });
+      media.addEventListener("mouseenter", () => { if (card.classList.contains("is-active")) play(); });
+    });
+  }
 
   /* ---------- Build cards ---------- */
   P.forEach((p, i) => {
@@ -96,6 +176,7 @@
     journey.appendChild(el);
   });
   const cards = $$(".phase", journey);
+  wireHoverVideos();
 
   /* ---------- Fit text to the space (no scrolling) ---------- */
   function fit(el, test, min, max) {
@@ -141,11 +222,58 @@
     journey.style.setProperty("--sumh", tallest() + "px");
     journey.style.setProperty("--cardh", (H + 16) + "px"); // = every card's height (cards stretch to the row)
   }
-  function fitPanel(panel) {
+  function fitPanel(panel, raw = false) {
     panel.classList.remove("scrolly");
     const ok = () => panel.scrollHeight <= panel.clientHeight + 1;
-    fit(panel, ok, isMobile() ? 11 : 9.5, isMobile() ? 14 : Math.max(12, Math.min(14.5, innerWidth / 100)));
+    const min = isMobile() ? 11 : 9.5, max = isMobile() ? 14 : Math.max(12, Math.min(14.5, innerWidth / 100));
+    const grid = $(".ins-grid", panel);
+    if (grid) grid.style.gridTemplateColumns = "";                          // let the stylesheet decide 1 vs 2 columns
+    if (grid && getComputedStyle(grid).gridTemplateColumns.split(" ").length > 1) balance(panel, grid, ok, min, max);
+    else fit(panel, ok, min, max);
+    if (grid && !raw) {                                                      // insights share one size per phase
+      const card = panel.closest(".phase");
+      fitPhaseInsights(card);
+      panel.style.fontSize = card.dataset.insightFs + "px";
+    }
     if (!ok()) panel.classList.add("scrolly");
+  }
+  /* Every insight panel in a phase uses the same text size: the largest size at which all of them fit.
+     Measured once per phase per window size (hidden panels are laid out invisibly to measure). */
+  function fitPhaseInsights(card) {
+    const key = innerWidth + "x" + innerHeight;
+    if (card.dataset.insightKey === key) return;
+    let size = Infinity;
+    $$(".panel", card).filter(p => $(".ins-grid", p)).forEach(p => {
+      const shown = p.classList.contains("is-current");
+      if (!shown) { p.style.visibility = "hidden"; p.classList.add("is-current"); }
+      fitPanel(p, true);
+      size = Math.min(size, parseFloat(p.style.fontSize));
+      if (!shown) { p.classList.remove("is-current"); p.style.visibility = ""; }
+    });
+    card.dataset.insightFs = size;
+    card.dataset.insightKey = key;
+  }
+  /* Insight panels: keep the reading order (body > quotes > notes > Gilead box) but choose where the
+     two columns split, so one long column doesn't force the whole panel's text smaller. */
+  function balance(panel, grid, ok, min, max) {
+    const main = $(".ins-main", grid), side = $(".ins-side", grid);
+    const bodies = [...main.children].filter(el => el.classList.contains("ins-body"));
+    const blocks = [...main.children, ...side.children].filter(el => !el.classList.contains("ins-body"));
+    const split = k => { main.replaceChildren(...bodies, ...blocks.slice(0, k)); side.replaceChildren(...blocks.slice(k)); };
+    const k0 = blocks.filter(el => el.classList.contains("quote")).length;     // the authored split
+    const size = () => parseFloat(panel.style.fontSize);
+    const RATIOS = ["1.25fr 1fr", "1fr 1fr", "1.5fr 1fr", "1fr 1.25fr"];       // first = the default look
+    const apply = (k, r) => { split(k); grid.style.gridTemplateColumns = `minmax(0, ${r.split(" ")[0]}) minmax(0, ${r.split(" ")[1]})`; fit(panel, ok, min, max); };
+    apply(k0, RATIOS[0]);
+    let best = { k: k0, r: RATIOS[0], fs: size() };
+    if (best.fs < max) {
+      for (const r of RATIOS) for (let k = 0; k < blocks.length; k++) {      // side always keeps the Gilead box
+        if (k === k0 && r === RATIOS[0]) continue;
+        apply(k, r);
+        if (size() > best.fs + 0.1) best = { k, r, fs: size() };
+      }
+    }
+    apply(best.k, best.r);
   }
 
   /* ---------- State ---------- */
@@ -250,23 +378,50 @@
     const b = e.target.closest("[data-phase]");
     if (b) location.hash = "phase-" + b.dataset.phase;
   });
-  function fitTakeaways() {
-    const ta = $("#ta"), grid = $(".ta-grid", ta);
-    if (isMobile()) return fit(ta, () => grid.clientHeight > 220 && $$(".ta-card .inner", ta).every(n => n.scrollHeight <= n.clientHeight + 1), 10, 14);
-    fit(ta, () => grid.clientHeight > 200 && $$(".ta-card .inner", ta).every(n => n.scrollHeight <= n.clientHeight + 1), 9.5, cardMax());
+  /* ---------- Priority Learning Areas ---------- */
+  const L = window.LEARNING;
+  const ICONS = {
+    person: '<circle cx="12" cy="7.5" r="3.5"/><path d="M4.5 20.5c.6-4 3.7-6.5 7.5-6.5s6.9 2.5 7.5 6.5"/>',
+    stethoscope: '<path d="M5 3.5v5a4.5 4.5 0 0 0 9 0v-5"/><path d="M9.5 13v2.5a4.5 4.5 0 0 0 9 0V13"/><circle cx="18.5" cy="11" r="2"/>',
+    chat: '<path d="M20.5 11.5a8 8 0 0 1-11.7 7.1L4 20l1.4-4.4a8 8 0 1 1 15.1-4.1z"/><path d="M12.5 8v7M9 11.5h7"/>',
+    pill: '<rect x="2.6" y="8.5" width="18.8" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="M9.5 9.5l5 5"/>'
+  };
+  const [l1, l2] = L.title.split(/ (.+)/);
+  $("#pl").innerHTML = `
+    <div class="ta-hero pl-hero">
+      <h1>${l1} <span>${l2}</span></h1>
+      <p class="pl-intro">${L.intro}</p>
+    </div>
+    <div class="ta-grid pl-grid">${L.areas.map(a => `<article class="ta-card pl-card">
+        <div class="inner">
+          <div class="tag pl-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[a.icon]}</svg>${a.label}</div>
+          <h3>${a.lead}</h3>
+          <ul>${a.bullets.map(([b, t]) => `<li><strong>${b}</strong> ${t}</li>`).join("")}</ul>
+        </div>
+      </article>`).join("")}</div>`;
+
+  /* both card pages: text scales so every card fits on one screen */
+  function fitGridPage(root) {
+    const grid = $(".ta-grid", root);
+    const ok = () => $$(".ta-card .inner", root).every(n => n.scrollHeight <= n.clientHeight + 1);
+    if (isMobile()) return fit(root, () => grid.clientHeight > 220 && ok(), 10, 14);
+    fit(root, () => grid.clientHeight > 200 && ok(), 9.5, cardMax());
   }
+  const fitTakeaways = () => fitGridPage($("#ta"));
+  const fitLearning = () => fitGridPage($("#pl"));
 
   /* ---------- Routing ---------- */
   const views = $$("[data-view].view");
   function route() {
     const h = location.hash.slice(1);
     const phaseIdx = h.startsWith("phase-") ? P.findIndex(p => "phase-" + p.id === h) : -1;
-    const view = phaseIdx > -1 ? "journey" : (h === "takeaways" ? h : "journey");
+    const view = phaseIdx > -1 ? "journey" : (["takeaways", "learning"].includes(h) ? h : "journey");
     const changed = document.body.dataset.view !== view;
     document.body.dataset.view = view;
     views.forEach(v => (v.hidden = v.dataset.view !== view));
     $$("[data-nav]").forEach(a => a.dataset.nav === view ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
     if (view === "takeaways") requestAnimationFrame(fitTakeaways);
+    if (view === "learning") requestAnimationFrame(fitLearning);
     if (view === "journey") {
       requestAnimationFrame(fitCards);
       if (phaseIdx > -1) setActive(phaseIdx, { focus: !changed });
@@ -283,6 +438,7 @@
       const cur = S.active > -1 && $(".panel.is-current", cards[S.active]);
       if (cur) fitPanel(cur);
       if (document.body.dataset.view === "takeaways") fitTakeaways();
+      if (document.body.dataset.view === "learning") fitLearning();
     }, 120);
   });
 

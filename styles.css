@@ -117,8 +117,8 @@ html.locked .gate {
 }
 .group span {
   position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 50%);
-  background: var(--ink); color: #fff; border-radius: 99px; padding: 5px 22px;
-  font-size: 11.5px; font-weight: 600; white-space: nowrap;
+  background: var(--ink); color: #fff; border-radius: 99px; padding: .4em 1.15em;
+  font-size: .76em; font-weight: 700; line-height: 1.2; white-space: nowrap;   /* same size as the cards' "01 RELEVANCE" label */
 }
 .journey.has-active .group { opacity: 0; }
 
@@ -144,13 +144,13 @@ html.locked .gate {
   width: max(100cqw, calc(100cqh * 9 / 16)); aspect-ratio: 9 / 16;
 }
 .stage img { width: 100%; height: 100%; object-fit: cover; }
-/* hover: a very mild zoom on the picture only (camera UI overlays stay still) */
-.art { transition: transform 1.1s cubic-bezier(.2, .7, .2, 1); }
-.ui { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-@media (hover: hover) {
-  .phase:not(.is-active):hover .art,
-  .phase.is-active .phase__media:hover .art { transform: scale(1.03); }
+/* hover clip sits exactly over the still (same box); hidden until its first frame is painted */
+.hover-video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; opacity: 0;
+  transition: opacity .4s ease;
 }
+.hover-video.is-on { opacity: 1; transition: none; }
+.ui { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
 .phase__summary { grid-column: 1; grid-row: 2; width: var(--colw); min-height: var(--sumh, auto); padding: .9em .5em .4em; display: flex; flex-direction: column; transition: opacity .2s; }
 .tag { display: flex; align-items: center; gap: .5em; font-weight: 700; font-size: .76em; line-height: 1.2; text-transform: uppercase; white-space: nowrap; }
@@ -248,14 +248,24 @@ html.locked .gate {
 .label { display: block; font-size: .72em; font-weight: 700; text-transform: uppercase; color: var(--blue); margin-bottom: .55em; }
 .quote.hcp .label { color: var(--red); }
 .quote .lead { margin: 0 0 .65em; font-size: .95em; line-height: 1.52; }
-.quote figure { margin: 0; padding: .1em 0 .1em 1em; border-left: 3px solid var(--blue); }
-.quote.hcp figure { border-left-color: var(--red); }
-.quote figure + figure { margin-top: .85em; }
+/* quotes pop: a soft tint in the speaker's colour, with the words in a deeper shade of it */
+.quote figure {
+  margin: 0; padding: .55em .9em .6em; border-left: 3px solid var(--blue); border-radius: 0 10px 10px 0;
+  background: rgba(59, 141, 230, .09);
+}
+.quote.hcp figure { border-left-color: var(--red); background: rgba(182, 42, 32, .065); }
+.quote figure + figure { margin-top: .6em; }
 .quote .intro { margin: 0 0 .35em; font-size: .86em; color: var(--muted); line-height: 1.45; }
-.quote blockquote { margin: 0; font-size: 1.1em; line-height: 1.4; }
-.quote figcaption { margin-top: .3em; font-size: .8em; color: var(--muted); }
+.quote blockquote { margin: 0; font-size: 1.1em; line-height: 1.4; color: #1c5ba3; }
+.quote.hcp blockquote { color: #8e2219; }
+.quote figcaption { margin-top: .35em; font-size: .8em; color: var(--muted); }
 .quote figcaption::before { content: "— "; }
 .ins-side > * + * { margin-top: .75em; }
+.ins-side > .quote:first-child { margin-top: 0; }
+.quote.cont { margin-top: .6em; }                 /* follow-on quote from the same group */
+.quote.cont > .label { display: none; }           /* …shows its label again only when it starts a column */
+.ins-side > .quote.cont:first-child > .label { display: block; }
+.ins-main > .note, .ins-main > .gilead { margin-top: .9em; }
 .note { padding: .95em 1.1em; border-radius: 12px; background: var(--soft); font-size: .92em; line-height: 1.52; }
 .note .label { color: var(--ink); }
 .note p, .gilead p { margin: 0; }
@@ -296,6 +306,18 @@ html.locked .gate {
 .ta-card .go { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: .5em; border: 0; background: none; padding: 1.1em 0 0; cursor: pointer; color: var(--ta-accent); font-size: .74em; font-weight: 600; text-transform: uppercase; }
 .ta-card .go:hover { text-decoration: underline; text-underline-offset: 3px; }
 
+/* ==========================================================================
+   Priority Learning Areas (same card system as Key Takeaways, four columns)
+   ========================================================================== */
+#pl { font-size: 15px; padding-bottom: clamp(14px, 3vh, 32px); }
+.pl-intro { margin: 0; font-size: 1.3em; line-height: 1.35; font-weight: 400; max-width: 46em; }
+.pl-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+.pl-tag svg { width: 1.9em; height: 1.9em; flex: none; margin: -.2em 0; }
+.pl-card h3 { font-size: 1.32em; line-height: 1.2; letter-spacing: -0.01em; }
+.pl-card ul { margin-top: 1.2em; }
+.pl-card li + li { margin-top: .85em; }
+.pl-card li strong { color: var(--ta-title); font-weight: 600; transition: color .3s; }
+
 .how { padding-top: clamp(20px, 5vh, 64px); }
 .how h1 { margin: 0; font-weight: 200; letter-spacing: -0.015em; font-size: clamp(40px, min(5vw, 9vh), 96px); line-height: 1; }
 .how h1 span { color: var(--blue); }
@@ -306,9 +328,11 @@ html.locked .gate {
    ========================================================================== */
 @media (max-width: 760px) {
   :root { --jpb: 10px; --sliver: 22px; }
-  .rule { gap: 16px; }
-  .nav { gap: 14px; overflow-x: auto; scrollbar-width: none; }
+  .rule { gap: 14px; }
+  .nav { gap: 12px; overflow-x: auto; scrollbar-width: none; }
   .nav a { font-size: 12.5px; }
+  .nav-long { display: none; }                /* phones: "Journey · Takeaways · Learning Areas" */
+  .nav a { text-shadow: 0 0 6px var(--bg), 0 0 12px var(--bg), 0 0 18px var(--bg); }   /* legible over the hero art */
   .hero h1 { font-size: 7.4vw; }
   .lede { white-space: normal; font-size: 13px; }
   .group { display: none; }

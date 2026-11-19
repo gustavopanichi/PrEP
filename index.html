@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=31">
+<link rel="stylesheet" href="styles.css?v=54">
 <script>
   /* Password gate: lock before first paint unless this browser already unlocked */
   (function () {
@@ -43,8 +43,9 @@
     <div class="wrap rule">
       <a class="logo" href="#journey" aria-label="Gilead — back to the journey"><img src="assets/logo.svg" alt="Gilead"></a>
       <nav class="nav" aria-label="Primary">
-        <a href="#journey" data-nav="journey">The Journey</a>
-        <a href="#takeaways" data-nav="takeaways">Key Takeaways</a>
+        <a href="#journey" data-nav="journey"><span class="nav-long">The&nbsp;</span>Journey</a>
+        <a href="#takeaways" data-nav="takeaways"><span class="nav-long">Key&nbsp;</span>Takeaways</a>
+        <a href="#learning" data-nav="learning"><span class="nav-long">Priority&nbsp;</span>Learning Areas</a>
       </nav>
     </div>
   </header>
@@ -55,7 +56,7 @@
       <div class="wrap col">
         <div class="hero">
           <h1>The PrEP <span>Empathy Journey</span></h1>
-          <p class="lede">A closer look at how Black cis women experience, choose, and make PrEP their own — <strong>and how their needs evolve over time.</strong></p>
+          <p class="lede">A closer look at the moments, motivations, and barriers that shape people’s evolving relationship with PrEP.</p>
         </div>
         <div class="journey" id="journey">
           <div class="group" aria-hidden="true"><span>RELEVANCE</span></div>
@@ -68,11 +69,16 @@
       <div class="wrap col" id="ta"></div>
     </section>
 
+    <!-- Priority learning areas -->
+    <section class="view" data-view="learning" hidden>
+      <div class="wrap col" id="pl"></div>
+    </section>
+
   </main>
 </div>
 
-<script src="content.js?v=31"></script>
-<script src="app.js?v=31"></script>
+<script src="content.js?v=54"></script>
+<script src="app.js?v=54"></script>
 <script>
   /* Password gate: compare the SHA-256 of the entry with the stored hash */
   (function () {

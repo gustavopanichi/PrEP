@@ -9,7 +9,7 @@ window.PHASES = [
     id: "before-relevance",
     num: null,
     label: "Before Relevance",
-    img: "assets/phase0-v7.jpg",
+    img: "assets/phase0-v8.jpg",
     heading: "I don’t see myself here.",
     summary:
       "PrEP is something I’ve heard of, but it doesn’t feel like something for me. What I’ve seen and heard about it doesn’t reflect my life, my relationships, or how I see myself. Before I can even consider PrEP, I have to recognize that I belong in the picture.",
@@ -25,9 +25,9 @@ window.PHASES = [
           "For many Black cis women, PrEP’s strongest associations are with gay men, rather than with their own health, relationships, or everyday lives. When the people and experiences represented in PrEP communications don't resemble their own, women may never reach the point of asking whether protection could benefit them."
         ],
         blocks: [
-          { t: "quote", kind: "patient", label: "In her words…", items: [{ q: "I usually thought it was more of a gay man thing. I didn’t have it on my radar." }] },
+          { t: "quote", kind: "patient", label: "In her words…", items: [{ q: "I usually thought it was more of a gay man thing. I didn’t have it on my radar.", attr: "Black cis woman, oral PrEP" }] },
           { t: "note", label: "Where experiences diverge", text: "For many White MSM, PrEP is already woven into social and dating culture. Friends, partners, and community have helped make it familiar, sometimes long before it becomes a personal decision. For Black cis women, that same visibility can reinforce the perception that PrEP belongs to someone else's world." },
-          { t: "gilead", text: "Make Black cis women unmistakably visible in PrEP communications, not as an afterthought, but as an audience in their own right. Show PrEP as a normal, legitimate choice within women's everyday lives, without relying on a risk narrative to explain why they might consider it." }
+          { t: "gilead", text: "Make Black cis women the main character of PrEP communications, not just part of an ensemble. Show PrEP as a normal, legitimate choice within women’s everyday lives, without relying on a risk narrative." }
         ]
       },
       {
@@ -36,7 +36,7 @@ window.PHASES = [
           "For some women, PrEP carries assumptions about sexual behavior, infidelity, and the state of their relationships. Simply asking questions can feel revealing, inviting others to draw conclusions about their lives. Exploring PrEP privately allows women to consider whether it might be right for them without having to explain or defend their curiosity."
         ],
         blocks: [
-          { t: "quote", kind: "patient", label: "In her words…", items: [{ q: "There’s a judgmental part of it: ‘Why would she need to get on PrEP if she’s not living a certain type of life?’" }] },
+          { t: "quote", kind: "patient", label: "In her words…", items: [{ q: "There’s a judgmental part of it: ‘Why would she need to get on PrEP if she’s not living a certain type of life?’", attr: "Black cis woman, oral PrEP" }] },
           { t: "note", label: "Where experiences diverge", text: "Latino MSMs also described negotiating the social meaning of PrEP, including religious beliefs and cultural expectations around sexuality. Among Black MSM, questions of trust in healthcare can create another layer of distance. White MSMs were most likely to describe PrEP as an expected and natural choice within their community and for themselves." },
           { t: "gilead", text: "Create discreet, low-pressure pathways into PrEP exploration. Telehealth can play an important role by allowing women to ask questions, consider options, and connect with care outside the visibility of their social environment." }
         ]
@@ -58,7 +58,7 @@ window.PHASES = [
     id: "relevance",
     num: "01",
     label: "Relevance",
-    img: "assets/phase1-v7.jpg",
+    img: "assets/phase1-v8.jpg",
     heading: "Until something shifts my perspective.",
     summary:
       "Something changes how I see my life and how I want to care for myself. Maybe it's a change in relationship status, a health milestone, or a new sense of what matters to me. I begin to recognize that PrEP could have a place in my story, for reasons that are my own.",
@@ -107,7 +107,7 @@ window.PHASES = [
     id: "initiation",
     num: "02",
     label: "Initiation",
-    img: "assets/phase2-v7.jpg",
+    img: "assets/phase2-v9.jpg",
     heading: "I’m choosing how protection fits into my picture.",
     summary:
       "Now that PrEP feels relevant, I’m figuring out what works for me. How much control, effort, and involvement do I want? The choices I see and conversations I have shape what feels possible.",
@@ -144,7 +144,7 @@ window.PHASES = [
           "A preferred modality may not be the one someone ultimately starts or stays on. Insurance approvals, pharmacy processes, and operational complexity can lead providers to begin with a more accessible option. An interim solution can become a long-term choice simply because the original preference is never revisited."
         ],
         blocks: [
-          { t: "quote", kind: "hcp", label: "HCP perspective", items: [{ q: "I always start with the pill because the insurance has to go through the prior authorization process.", attr: "HCP, physician" }] },
+          { t: "quote", kind: "hcp", label: "HCP perspective", items: [{ q: "I always start with the pill because the insurance has to go through the prior authorization process.", attr: "HCP, Physician" }] },
           { t: "gilead", text: "Make access expertise easier to use across practices. Clarify payer pathways, documentation requirements, pharmacy responsibilities, and escalation processes. When a temporary option is used, create a deliberate point to revisit the patient's original preference." }
         ]
       }
@@ -188,8 +188,8 @@ window.PHASES = [
         ],
         blocks: [
           { t: "quote", kind: "patient", label: "In her words…", items: [
-            { q: "That one person in life who has you covered…", attr: "Black cis woman, personification exercise" },
-            { q: "It’s my sister: calm, dependable, quietly looking out for me.", attr: "Black cis woman, personification exercise" }
+            { q: "[PrEP is like]…that one person in life who has you covered…", attr: "Black cis woman, oral PrEP" },
+            { q: "[PrEP is like]…my sister: calm, dependable, quietly looking out for me.", attr: "Black cis woman, oral PrEP" }
           ] },
           { t: "note", label: "Where experiences diverge", text: "When asked to personify PrEP, women often imagined a mature, reliable person beside them — someone consistently in their corner. MSM more frequently described a form of defense: a shield, armor, warrior, or force field standing between them and HIV. Both express protection, but the emotional relationships are different: one emphasizes dependable support, while the other emphasizes a protective barrier." },
           { t: "gilead", text: "Expand the emotional language of protection beyond defense. For many MSMs, PrEP means something standing between me and HIV. For women, it can represent something dependable beside them, allowing greater confidence and independence in the life they choose." }
@@ -202,7 +202,7 @@ window.PHASES = [
         ],
         blocks: [
           { t: "quote", kind: "hcp", label: "HCP perspective", items: [
-            { q: "I would opt for the Apretude because that keeps them in care.", attr: "HCP, NP (excerpt)" },
+            { q: "I would opt for the Apretude because that keeps them in care.", attr: "HCP, NP" },
             { q: "With orals, I had a little bit of a carrot and stick: I’m not refilling it unless you get your lab work done. With lenacapavir, at two or three months, I’ve got no leverage, I’ve got zippo.", attr: "HCP, Physician" }
           ] },
           { t: "gilead", text: "As protection requires less frequent action, give care teams new ways to maintain confidence and visibility. Lighter-touch connections, including telehealth, could preserve access, reassurance, and visibility without recreating the burden of in-person visits for patients." }
@@ -215,7 +215,7 @@ window.PHASES = [
     id: "internalization",
     num: "04",
     label: "Internalization",
-    img: "assets/phase4-v7.jpg",
+    img: "assets/phase4-v9.jpg",
     heading: "The frame of my life is widening.",
     summary:
       "As protection becomes something I can depend on, it takes up less space in my mind. The attention once occupied by worry and uncertainty becomes available for intimacy, connection, spontaneity, and everything else in my life.",
@@ -235,7 +235,7 @@ window.PHASES = [
         blocks: [
           { t: "quote", kind: "patient", label: "In their words…", items: [
             { q: "To not have to do that mental math and play those exercises in the back of my mind is a huge relief.", attr: "White MSM, Apretude" },
-            { q: "It does make me feel a little bit more intimate with my husband.", attr: "Black cis woman, oral PrEP (excerpt)" }
+            { q: "It does make me feel a little bit more intimate with my husband.", attr: "Black cis woman, oral PrEP" }
           ] },
           { t: "note", label: "Where experiences converge", text: "MSMs and cis Black women described relief from the mental calculations surrounding sex, including the freedom to be more present and spontaneous. The underlying experience of returned attention is shared, even when the meaning of that freedom differs." },
           { t: "gilead", text: "Make returned attention part of the value story. Show how protection can support greater presence in intimacy, relationships, and everyday life." }
@@ -262,7 +262,7 @@ window.PHASES = [
           "They may choose not to discuss it with partners because doing so could introduce unwanted questions about fidelity, trust, or the relationship itself. Privacy can preserve a woman's ownership of a health decision she has made for herself."
         ],
         blocks: [
-          { t: "quote", kind: "patient", label: "In her words…", items: [{ q: "I didn't even want to bring him into the conversation. He didn't even know I was taking it.", attr: "Black cis woman, oral PrEP (excerpt)" }] },
+          { t: "quote", kind: "patient", label: "In her words…", items: [{ q: "I didn't even want to bring him into the conversation. He didn't even know I was taking it.", attr: "Black cis woman, oral PrEP" }] },
           { t: "note", label: "Where experiences diverge", text: "MSM more often described discussing PrEP openly with partners, sometimes even attending appointments together. They were also more likely to share their experiences with friends and emphasize PrEP's benefits for the broader community, rather than treating it as a private, personal choice." },
           { t: "gilead", text: "Preserve the option for PrEP to remain discreet. Consider how medication delivery, notifications, records, and ongoing support affect women's ability to maintain protection on their own terms." }
         ]
@@ -284,7 +284,7 @@ window.PHASES = [
     id: "evolution",
     num: "05",
     label: "Evolution",
-    img: "assets/phase5-v7.jpg",
+    img: "assets/phase5-v8.jpg",
     heading: "My picture keeps getting fuller.",
     summary:
       "Life doesn’t stand still. PrEP becomes the backdrop to new experiences, adventures, relationships, and responsibilities. New chapters can alter what I need from protection, and over time, I can consider and reevaluate how PrEP fits within my picture.",
@@ -365,6 +365,34 @@ window.TAKEAWAYS = {
     { phase: "evolution", title: "Design for changing lives, not fixed decisions.", bullets: [
       "Normalize reassessment, switching, pausing, and returning as life circumstances change.",
       "Create low-friction reentry and personalized support that starts by understanding what changed."
+    ] }
+  ]
+};
+
+/* Priority Learning Areas (from the "Topline learning | Key focus areas" slide) */
+window.LEARNING = {
+  title: "Priority Learning Areas",
+  intro: "And our priority learning areas also came into sharper focus across the journey.",
+  areas: [
+    { icon: "person", label: "Black cis women", lead: "For Black cis women, the biggest opportunity lies in changing where the PrEP story begins.", bullets: [
+      ["Relevance can bypass risk.", "PrEP becomes relevant through self-care, autonomy, and changing life priorities without needing to see herself through the lens of vulnerability."],
+      ["HCP caution can keep PrEP feeling out of reach.", "HCPs can be more tentative introducing PrEP with women, precisely when a more routine, permission-giving conversation helps women recognize its relevance."],
+      ["Dependability creates independence.", "The more she can depend on PrEP, the less she has to depend on what someone else says or does — preserving her health, future, and ability to be there for what matters to her."]
+    ] },
+    { icon: "stethoscope", label: "HCPs", lead: "HCPs can expand or constrain what feels possible for patients.", bullets: [
+      ["What patients value about Yeztugo can be exactly what worries HCPs.", "For patients, six months of distance can mean freedom; for HCPs, the same distance means less visibility and risk of falling out of care."],
+      ["The best PrEP conversations inspire patient candor.", "HCPs don’t “tiptoe”: they normalize sexual health questions, remove judgement, and introduce PrEP matter-of-factly, creating permission for patients to say what they actually need."],
+      ["Access barriers don’t have to materialize to influence choice.", "Anticipated challenges with coverage, approvals, or pharmacy coordination can shape which modalities providers feel comfortable pursuing, before the barrier is even encountered."]
+    ] },
+    { icon: "chat", label: "Telehealth", lead: "Telehealth matters most when distance itself solves a problem.", bullets: [
+      ["Telehealth can provide distance from social scrutiny.", "During exploration (Relevance/Initiation), a more private route can lower the social cost of curiosity."],
+      ["It allows connection without another clinic visit.", "Between less frequent in-person moments, Telehealth can preserve useful connection without undermining the freedom less frequency allows."],
+      ["It can make re-entry after lapse easier.", "When life changes, a lower friction conversation makes reassessment, switching, or return easier."]
+    ] },
+    { icon: "pill", label: "Modality choice (+QW)", lead: "Every PrEP modality puts the work of protection somewhere different.", bullets: [
+      ["There is no universally low-burden PrEP.", "Each modality puts the work of protection somewhere different — across attention, time, flexibility, privacy, control, and reliance on care."],
+      ["Ease depends on which demands fit someone’s life.", "For some, managing a daily pill is easier than coordinating clinic visits. Others prefer showing up to an injection vs. remembering medication every day. Dosing frequency doesn’t determine burden."],
+      ["QW could offer less to remember without giving up control.", "QW dosing reduces the number of dosing moments while preserving the familiarity and independence of a pill, though establishing a dependable weekly routine presents a new challenge."]
     ] }
   ]
 };
